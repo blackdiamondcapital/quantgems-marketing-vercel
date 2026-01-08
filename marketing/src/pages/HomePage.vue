@@ -243,16 +243,6 @@
         </div>
       </div>
     </section>
-
-    <footer class="footer">
-      <div class="container footer-inner">
-        <div class="small">© {{ new Date().getFullYear() }} QuantGems 報酬引擎. All rights reserved.</div>
-        <div class="footer-links">
-          <a class="small" :href="loginUrl">登入</a>
-          <a class="small" :href="signupUrl">註冊</a>
-        </div>
-      </div>
-    </footer>
   </main>
 </template>
 
