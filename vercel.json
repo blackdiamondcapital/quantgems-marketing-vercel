@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm --prefix marketing install && npm --prefix marketing run build",
+  "buildCommand": "npm install && npm --prefix marketing install && npm --prefix marketing run build",
   "outputDirectory": "marketing/dist",
   "framework": "vite",
   "rewrites": [
