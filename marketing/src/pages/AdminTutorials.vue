@@ -29,7 +29,10 @@ const form = ref({
 })
 
 const isAuthed = computed(() => !!authToken.value)
-const isEnterprise = computed(() => String(authUser.value?.plan || '').toLowerCase() === 'enterprise')
+const isPrimeOrEnterprise = computed(() => {
+  const plan = String(authUser.value?.plan || '').toLowerCase()
+  return plan === 'prime' || plan === 'enterprise'
+})
 
 function getAuthHeaders() {
   if (!authToken.value) return {}
@@ -233,7 +236,7 @@ async function onSubmit() {
     error.value = '請先登入'
     return
   }
-  if (!isEnterprise.value) {
+  if (!isPrimeOrEnterprise.value) {
     error.value = '此功能僅 Prime 尊榮版可用'
     return
   }
@@ -447,7 +450,7 @@ onMounted(async () => {
           </div>
         </div>
 
-        <div v-if="isAuthed && !isEnterprise" class="admin-tutorials__warn">
+        <div v-if="isAuthed && !isPrimeOrEnterprise" class="admin-tutorials__warn">
           你已登入，但不是 Prime 尊榮版，無法新增/更新/刪除。
         </div>
       </div>
