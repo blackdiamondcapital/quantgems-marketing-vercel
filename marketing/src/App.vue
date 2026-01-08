@@ -12,11 +12,17 @@
 
         <nav class="nav">
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#features' }">功能亮點</RouterLink>
+<<<<<<< HEAD
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#workflow' }">使用流程</RouterLink>
           <RouterLink class="nav-link" to="/tutorials">論壇</RouterLink>
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#pricing' }">方案價格</RouterLink>
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#faq' }">常見問題</RouterLink>
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#disclaimer' }">風險聲明</RouterLink>
+=======
+          <RouterLink class="nav-link" to="/tutorials">教學文章</RouterLink>
+          <RouterLink class="nav-link" :to="{ path: '/', hash: '#pricing' }">方案價格</RouterLink>
+          <RouterLink class="nav-link" :to="{ path: '/', hash: '#faq' }">常見問題</RouterLink>
+>>>>>>> 07cf0bc (Add marketing + api for Vercel)
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#contact' }">聯絡</RouterLink>
         </nav>
 
@@ -45,8 +51,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 
+<<<<<<< HEAD
 const loginUrl = import.meta.env.VITE_APP_LOGIN_URL || 'https://quantgems.com/'
 const signupUrl = import.meta.env.VITE_APP_SIGNUP_URL || 'https://quantgems.com/'
+=======
+const loginUrl = import.meta.env.VITE_APP_LOGIN_URL || 'http://localhost:5173'
+const signupUrl = import.meta.env.VITE_APP_SIGNUP_URL || 'http://localhost:5173'
+>>>>>>> 07cf0bc (Add marketing + api for Vercel)
 
 const showAdminLink =
   import.meta.env.DEV || String(import.meta.env.VITE_SHOW_ADMIN_LINK || '').toLowerCase() === 'true'

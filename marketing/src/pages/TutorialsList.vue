@@ -1,15 +1,23 @@
 <script setup>
+<<<<<<< HEAD
 import { computed, onMounted, reactive, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? '/api').replace(/\/$/, '')
 const TOKEN_KEY = 'quantgem_auth_token'
 const PRODUCT_LOGIN_URL = String(import.meta.env.VITE_PRODUCT_LOGIN_URL || import.meta.env.VITE_APP_LOGIN_URL || 'https://taiwan-stock-returns-quantgems-vue-vercel.onrender.com/api/auth/google').trim()
+=======
+import { ref, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
+
+const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? '/api').replace(/\/$/, '')
+>>>>>>> 07cf0bc (Add marketing + api for Vercel)
 
 const tutorials = ref([])
 const loading = ref(false)
 const error = ref('')
 
+<<<<<<< HEAD
 const authToken = ref(null)
 const authUser = ref(null)
 const authError = ref('')
@@ -119,6 +127,8 @@ async function createThread() {
   }
 }
 
+=======
+>>>>>>> 07cf0bc (Add marketing + api for Vercel)
 async function loadTutorials() {
   loading.value = true
   error.value = ''
@@ -128,14 +138,21 @@ async function loadTutorials() {
     const json = await resp.json()
     tutorials.value = Array.isArray(json?.data) ? json.data : []
   } catch (e) {
+<<<<<<< HEAD
     error.value = '論壇載入失敗（請確認後端 /api/tutorials 是否可用）'
+=======
+    error.value = '教學文章載入失敗（請確認後端 /api/tutorials 是否可用）'
+>>>>>>> 07cf0bc (Add marketing + api for Vercel)
   } finally {
     loading.value = false
   }
 }
 
 onMounted(() => {
+<<<<<<< HEAD
   loadAuthFromStorage()
+=======
+>>>>>>> 07cf0bc (Add marketing + api for Vercel)
   loadTutorials()
 })
 </script>
@@ -145,8 +162,13 @@ onMounted(() => {
     <div class="container">
       <div class="tutorials-page__head">
         <div>
+<<<<<<< HEAD
           <h1 class="section-title" style="margin-bottom:6px;">論壇</h1>
           <p class="section-sub" style="margin-top:0;">交流使用心得、策略想法與問題討論。登入後可發表主題與回覆。</p>
+=======
+          <h1 class="section-title" style="margin-bottom:6px;">教學文章</h1>
+          <p class="section-sub" style="margin-top:0;">用實戰導向的文章，帶你快速上手：看盤面、找強弱、用條件選股建立流程。</p>
+>>>>>>> 07cf0bc (Add marketing + api for Vercel)
         </div>
         <div class="tutorials-page__actions">
           <button class="btn" type="button" :disabled="loading" @click="loadTutorials">重新整理</button>
@@ -154,6 +176,7 @@ onMounted(() => {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div class="card tutorials-card" style="margin-top:14px;">
         <div class="tutorials-toolbar">
           <div>
@@ -207,6 +230,15 @@ onMounted(() => {
 
         <div v-if="!loading && !error && tutorials.length === 0" class="empty">
           目前尚無主題。
+=======
+      <div class="card tutorials-card">
+        <div class="small" v-if="loading">載入中...</div>
+        <div class="small" v-else-if="error">{{ error }}</div>
+        <div class="small" v-else>最新 {{ tutorials.length }} 篇</div>
+
+        <div v-if="!loading && !error && tutorials.length === 0" class="empty">
+          目前尚無教學文章。
+>>>>>>> 07cf0bc (Add marketing + api for Vercel)
         </div>
 
         <div class="grid cols-3 tutorials-grid" v-if="tutorials.length">
@@ -218,7 +250,11 @@ onMounted(() => {
           >
             <div class="tutorial-title">{{ t.title }}</div>
             <div class="tutorial-summary">{{ t.summary || '（尚未填寫摘要）' }}</div>
+<<<<<<< HEAD
             <div class="tutorial-meta small">{{ t.published ? '公開' : '草稿' }}</div>
+=======
+            <div class="tutorial-meta small">{{ t.published ? '已發布' : '草稿' }}</div>
+>>>>>>> 07cf0bc (Add marketing + api for Vercel)
           </RouterLink>
         </div>
       </div>

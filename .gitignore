@@ -1,0 +1,16 @@
+node_modules/
+**/node_modules/
+
+# Vite build output
+marketing/dist/
+
+# Vite cache
+.vite/
+.vite-temp/
+
+# OS files
+.DS_Store
+
+# Env files
+.env
+.env.*
