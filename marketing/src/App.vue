@@ -19,7 +19,6 @@
         </nav>
 
         <div class="actions">
-          <RouterLink class="btn link" to="/admin/tutorials">管理登入</RouterLink>
           <a class="btn link" :href="loginUrl" target="_blank" rel="noopener noreferrer">產品登入</a>
           <a class="btn primary" :href="signupUrl">立即開始</a>
         </div>
@@ -32,6 +31,7 @@
       <div class="container footer-inner">
         <div class="small">© {{ new Date().getFullYear() }} QuantGems 報酬引擎. All rights reserved.</div>
         <div class="footer-links">
+          <RouterLink v-if="showAdminLink" class="small" to="/admin/tutorials">管理</RouterLink>
           <a class="small" :href="loginUrl">登入</a>
           <a class="small" :href="signupUrl">註冊</a>
         </div>
@@ -45,6 +45,9 @@ import { RouterLink, RouterView } from 'vue-router'
 
 const loginUrl = import.meta.env.VITE_APP_LOGIN_URL || 'http://localhost:5173'
 const signupUrl = import.meta.env.VITE_APP_SIGNUP_URL || 'http://localhost:5173'
+
+const showAdminLink =
+  import.meta.env.DEV || String(import.meta.env.VITE_SHOW_ADMIN_LINK || '').toLowerCase() === 'true'
 </script>
 
 <style>
