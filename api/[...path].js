@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 import { getPool } from './_lib/pool.js'
 import { optionalAuth, requireAuth, requirePlan, signToken, getToken, verifyToken } from './_lib/auth.js'
@@ -50,7 +50,7 @@ function normalizeSlug(value) {
 
 function isEnterpriseUser(req) {
   const plan = String(req?.user?.plan || '').toLowerCase()
-  return plan === 'enterprise'
+  return plan === 'enterprise' || plan === 'prime'
 }
 
 // Health
@@ -205,7 +205,7 @@ app.get('/api/tutorials/:slug', optionalAuth(pool), async (req, res) => {
 })
 
 // Tutorials: admin create
-app.post('/api/tutorials', requireAuth(pool), requirePlan('enterprise'), async (req, res) => {
+app.post('/api/tutorials', requireAuth(pool), requirePlan('enterprise', 'prime'), async (req, res) => {
   await ensureSchema()
 
   const slug = normalizeSlug(req.body?.slug)
@@ -238,7 +238,7 @@ app.post('/api/tutorials', requireAuth(pool), requirePlan('enterprise'), async (
 })
 
 // Tutorials: admin update
-app.put('/api/tutorials/:id', requireAuth(pool), requirePlan('enterprise'), async (req, res) => {
+app.put('/api/tutorials/:id', requireAuth(pool), requirePlan('enterprise', 'prime'), async (req, res) => {
   await ensureSchema()
 
   const id = Number.parseInt(String(req.params.id || ''), 10)
@@ -308,7 +308,7 @@ app.put('/api/tutorials/:id', requireAuth(pool), requirePlan('enterprise'), asyn
 })
 
 // Tutorials: admin delete
-app.delete('/api/tutorials/:id', requireAuth(pool), requirePlan('enterprise'), async (req, res) => {
+app.delete('/api/tutorials/:id', requireAuth(pool), requirePlan('enterprise', 'prime'), async (req, res) => {
   await ensureSchema()
 
   const id = Number.parseInt(String(req.params.id || ''), 10)
