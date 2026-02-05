@@ -13,7 +13,7 @@
         <nav class="nav">
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#features' }">功能亮點</RouterLink>
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#workflow' }">使用流程</RouterLink>
-          <RouterLink class="nav-link" to="/tutorials">教學文章</RouterLink>
+          <RouterLink class="nav-link" to="/tutorials">論壇</RouterLink>
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#pricing' }">方案價格</RouterLink>
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#faq' }">常見問題</RouterLink>
           <RouterLink class="nav-link" :to="{ path: '/', hash: '#disclaimer' }">風險聲明</RouterLink>
