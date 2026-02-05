@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "buildCommand": "npm install && npm --prefix marketing install && npm --prefix marketing run build",
-=======
-  "buildCommand": "npm --prefix marketing install && npm --prefix marketing run build",
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
   "outputDirectory": "marketing/dist",
   "framework": "vite",
   "rewrites": [
