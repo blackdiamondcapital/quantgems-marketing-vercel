@@ -5,7 +5,7 @@ import { useRoute, RouterLink } from 'vue-router'
 const route = useRoute()
 const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? '/api').replace(/\/$/, '')
 const TOKEN_KEY = 'quantgem_auth_token'
-const PRODUCT_LOGIN_URL = String(import.meta.env.VITE_PRODUCT_LOGIN_URL || import.meta.env.VITE_APP_LOGIN_URL || 'https://quantgems.com/').trim()
+const PRODUCT_LOGIN_URL = String(import.meta.env.VITE_PRODUCT_LOGIN_URL || import.meta.env.VITE_APP_LOGIN_URL || 'https://taiwan-stock-returns-quantgems-vue-vercel.onrender.com/api/auth/google').trim()
 
 const loading = ref(false)
 const error = ref('')
