@@ -4,10 +4,7 @@ import HomePage from '../pages/HomePage.vue'
 import TutorialsList from '../pages/TutorialsList.vue'
 import TutorialDetail from '../pages/TutorialDetail.vue'
 import AdminTutorials from '../pages/AdminTutorials.vue'
-<<<<<<< HEAD
 import AuthCallback from '../pages/AuthCallback.vue'
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
 
 const router = createRouter({
   history: createWebHistory(),
@@ -15,10 +12,7 @@ const router = createRouter({
     { path: '/', name: 'home', component: HomePage },
     { path: '/tutorials', name: 'tutorials', component: TutorialsList },
     { path: '/tutorials/:slug', name: 'tutorial-detail', component: TutorialDetail, props: true },
-<<<<<<< HEAD
     { path: '/auth/callback', name: 'auth-callback', component: AuthCallback },
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
     { path: '/admin/tutorials', name: 'admin-tutorials', component: AdminTutorials },
   ],
   scrollBehavior(to) {

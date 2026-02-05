@@ -18,10 +18,7 @@
             <div class="note-item">無需安裝，瀏覽器即用</div>
             <div class="note-item">支援手機與桌機</div>
             <div class="note-item">資料每日更新</div>
-<<<<<<< HEAD
             <div class="note-item">10 分鐘完成今日掃盤</div>
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
           </div>
         </div>
 
@@ -47,14 +44,11 @@
               <div class="mini-s">KD · MACD · 均線 · 九階梯</div>
             </div>
             <div class="mini card">
-<<<<<<< HEAD
               <div class="mini-k">輪播掃描</div>
               <div class="mini-v">固定節奏掃名單</div>
               <div class="mini-s">把時間留給真正重要的圖</div>
             </div>
             <div class="mini card">
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
               <div class="mini-k">AI 技術摘要</div>
               <div class="mini-v">一鍵解讀</div>
               <div class="mini-s">技術結構 · 多空研判</div>
@@ -99,14 +93,11 @@
             <div class="feature-desc">最多 10 組群組，每組 100 檔，支援批次加入、清空、重新命名，登入後跨裝置同步。</div>
           </div>
           <div class="card feature">
-<<<<<<< HEAD
             <div class="feature-icon">⏱️</div>
             <div class="feature-title">輪播（Carousel）掃描模式</div>
             <div class="feature-desc">把排行或選股結果變成可掃描的名單，用 3～10 秒節奏自動切換圖表，快速過濾噪音，找到值得深入研究的標的。</div>
           </div>
           <div class="card feature">
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
             <div class="feature-icon">🤖</div>
             <div class="feature-title">AI 技術分析摘要</div>
             <div class="feature-desc">一鍵呼叫 AI 模型，產生技術結構解讀與多空研判，輔助你快速理解圖形與指標。</div>
@@ -120,7 +111,6 @@
       </div>
     </section>
 
-<<<<<<< HEAD
     <section id="workflow" class="section">
       <div class="container">
         <h2 class="section-title">10 分鐘使用流程</h2>
@@ -147,8 +137,6 @@
       </div>
     </section>
 
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
     <section id="pricing" class="section">
       <div class="container">
         <h2 class="section-title">方案價格</h2>
@@ -162,7 +150,6 @@
               <div class="small">適合先熟悉工具與流程</div>
             </div>
             <ul class="list">
-<<<<<<< HEAD
               <li>報酬排行：每日 Top 30 強勢股，僅支援日頻</li>
               <li>輪播：每日最多 30 檔，快速掃盤</li>
               <li>AI 分析：盤勢解析每日 1 次、個股技術每日 1 次</li>
@@ -172,13 +159,6 @@
               <li>比較工具：一次最多 3 檔，每日 5 次</li>
               <li>神奇 K 線、階梯線：不支援</li>
               <li>技術指標參數：不可修改</li>
-=======
-              <li>報酬排行：全部 + 日，前 20 檔</li>
-              <li>熱力圖：僅當日盤面</li>
-              <li>技術線圖：日 K + 均線 + 成交量（近 3 個月）</li>
-              <li>自選股：1 組，最多 20 檔</li>
-              <li>比較工具：一次最多 3 檔</li>
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
             </ul>
             <a class="btn" :href="signupUrl">免費註冊</a>
           </div>
@@ -190,7 +170,6 @@
               <div class="small">大多數使用者的最佳選擇</div>
             </div>
             <ul class="list">
-<<<<<<< HEAD
               <li>報酬排行：每日 Top 100 強勢股，支援日/週/月頻率</li>
               <li>技術分析：神奇 K / 階梯線 + HC / PTR / ORC 指標，參數可調整</li>
               <li>選股策略：每日可執行 20 次，可儲存 5 組策略，可調整參數，結果可匯出 Excel</li>
@@ -199,16 +178,6 @@
               <li>自選股管理：5 個群組，每組 100 檔，支援批次移動/刪除/標籤、清單匯入/匯出</li>
               <li>輪播：報酬排行/選股策略每日各 100 檔、自選股每日 200 檔（按使用量計算）</li>
               <li>比較工具：一次比較 5 檔，每日 10 次</li>
-=======
-              <li>報酬排行：全部/漲幅/跌幅，各前 100 檔</li>
-              <li>排行榜支援日/週/月週期</li>
-              <li>熱力圖與深度分析：多維度盤面視覺化</li>
-              <li>技術線圖：多空線、KD、MACD、九階梯線等完整指標</li>
-              <li>條件選股：可儲存 5 組自訂策略</li>
-              <li>自選股：5 組，每組最多 100 檔</li>
-              <li>比較工具：一次最多 5 檔</li>
-              <li>AI 技術分析摘要</li>
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
             </ul>
             <a class="btn primary" :href="signupUrl">開始使用 Pro</a>
           </div>
@@ -220,7 +189,6 @@
               <div class="small">需要更多檔數/團隊協作</div>
             </div>
             <ul class="list">
-<<<<<<< HEAD
               <li>報酬排行：每日 Top 200 強勢股，支援日/週/月/季/年頻率</li>
               <li>技術分析：包含 Pro 功能，另有 Prime 獨家（價量累積/黃金切割率/斜線壓力支撐）</li>
               <li>選股策略：每日可執行 40 次，可儲存 10 組策略，可調整參數，結果可匯出 Excel</li>
@@ -229,16 +197,6 @@
               <li>自選股管理：10 個群組，每組 100 檔，支援批次移動/刪除/標籤、清單匯入/匯出</li>
               <li>輪播：報酬排行/選股策略每日各 300 檔、自選股每日 500 檔（按使用量計算）</li>
               <li>比較工具：一次比較 10 檔，每日 20 次</li>
-=======
-              <li>排行榜：日/週/月/季/年，各前 300 檔</li>
-              <li>熱力圖與深度分析：完整歷史與客製化維度</li>
-              <li>技術線圖：長期歷史、多檔並列檢視</li>
-              <li>條件選股：團隊共用策略與多組條件</li>
-              <li>自選股：10 組，每組 100 檔</li>
-              <li>比較與報告匯出</li>
-              <li>多帳號與團隊權限管理</li>
-              <li>專屬客服與客製導入服務</li>
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
             </ul>
             <a class="btn" href="#contact">聯絡洽談</a>
           </div>
@@ -257,13 +215,10 @@
             <div class="faq-body">不會。QuantGems 是工具平台，提供資料整理、篩選與視覺化，協助你做決策，但不提供投資建議。</div>
           </details>
           <details class="card faq">
-<<<<<<< HEAD
             <summary>能保證獲利嗎？</summary>
             <div class="faq-body">不能。QuantGems 提供的是資料整理、視覺化與策略篩選工具，不保證獲利，也不構成投資建議。投資有風險，請自行評估並做好風控。</div>
           </details>
           <details class="card faq">
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
             <summary>需要安裝嗎？手機可以用嗎？</summary>
             <div class="faq-body">不需要安裝，瀏覽器即可使用。支援手機與桌機，介面響應式設計。</div>
           </details>
@@ -272,13 +227,10 @@
             <div class="faq-body">資料每日更新，排行榜與熱力圖會在收盤後更新當日數據。</div>
           </details>
           <details class="card faq">
-<<<<<<< HEAD
             <summary>可以回看過去某一天的市場狀況嗎？</summary>
             <div class="faq-body">可以。排行、統計與選股等功能都支援以日期為基準查詢，你可以用它做復盤。</div>
           </details>
           <details class="card faq">
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
             <summary>可以取消訂閱嗎？</summary>
             <div class="faq-body">可以。你可以在訂閱管理頁隨時取消，取消後仍可用到當期結束。</div>
           </details>
@@ -294,7 +246,6 @@
       </div>
     </section>
 
-<<<<<<< HEAD
     <section id="disclaimer" class="section">
       <div class="container">
         <h2 class="section-title">風險聲明</h2>
@@ -308,9 +259,6 @@
         </div>
       </div>
     </section>
-
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
     <section id="contact" class="section">
       <div class="container">
         <h2 class="section-title">聯絡我們</h2>
@@ -326,11 +274,7 @@
               <input class="input" v-model.trim="form.email" placeholder="you@example.com" autocomplete="email" />
 
               <label class="small">訊息</label>
-<<<<<<< HEAD
               <textarea class="textarea" v-model.trim="form.message" placeholder="我想了解..."></textarea>
-=======
-              <textarea class="textarea" v-model.trim="form.message" placeholder="我想了解..." />
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
 
               <div class="form-row">
                 <button class="btn primary" type="submit" :disabled="submitting">
@@ -367,13 +311,8 @@
 <script setup>
 import { reactive, ref } from 'vue'
 
-<<<<<<< HEAD
 const loginUrl = import.meta.env.VITE_APP_LOGIN_URL || 'https://quantgems.com/'
 const signupUrl = import.meta.env.VITE_APP_SIGNUP_URL || 'https://quantgems.com/'
-=======
-const loginUrl = import.meta.env.VITE_APP_LOGIN_URL || 'http://localhost:5173'
-const signupUrl = import.meta.env.VITE_APP_SIGNUP_URL || 'http://localhost:5173'
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
 
 const submitting = ref(false)
 const status = ref('')

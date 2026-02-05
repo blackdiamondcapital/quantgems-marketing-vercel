@@ -1,24 +1,16 @@
 <script setup>
-<<<<<<< HEAD
 import { computed, onMounted, reactive, ref, watch } from 'vue'
-=======
-import { ref, onMounted, watch } from 'vue'
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
 import { useRoute, RouterLink } from 'vue-router'
 
 const route = useRoute()
 const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? '/api').replace(/\/$/, '')
-<<<<<<< HEAD
 const TOKEN_KEY = 'quantgem_auth_token'
 const PRODUCT_LOGIN_URL = String(import.meta.env.VITE_PRODUCT_LOGIN_URL || import.meta.env.VITE_APP_LOGIN_URL || 'https://taiwan-stock-returns-quantgems-vue-vercel.onrender.com/api/auth/google').trim()
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
 
 const loading = ref(false)
 const error = ref('')
 const post = ref(null)
 
-<<<<<<< HEAD
 const authToken = ref(null)
 const authUser = ref(null)
 const authError = ref('')
@@ -147,8 +139,6 @@ async function submitReply() {
   }
 }
 
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
 async function load() {
   const slug = String(route.params.slug || '').trim()
   if (!slug) return
@@ -163,17 +153,12 @@ async function load() {
     const json = await resp.json()
     post.value = json?.data || null
   } catch (e) {
-<<<<<<< HEAD
     error.value = '主題載入失敗'
-=======
-    error.value = '文章載入失敗'
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
   } finally {
     loading.value = false
   }
 }
 
-<<<<<<< HEAD
 async function loadAll() {
   await loadAuthFromStorage()
   await load()
@@ -182,21 +167,13 @@ async function loadAll() {
 
 onMounted(loadAll)
 watch(() => route.params.slug, loadAll)
-=======
-onMounted(load)
-watch(() => route.params.slug, load)
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
 </script>
 
 <template>
   <main class="tutorial-detail">
     <div class="container">
       <div class="tutorial-detail__head">
-<<<<<<< HEAD
         <RouterLink class="btn" to="/tutorials">返回論壇</RouterLink>
-=======
-        <RouterLink class="btn" to="/tutorials">返回列表</RouterLink>
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
         <RouterLink class="btn" :to="{ path: '/', hash: '#pricing' }">查看方案</RouterLink>
       </div>
 
@@ -205,16 +182,11 @@ watch(() => route.params.slug, load)
         <div v-else-if="error" class="small">{{ error }}</div>
 
         <template v-else>
-<<<<<<< HEAD
           <h1 class="tutorial-detail__title">{{ post?.title || '論壇主題' }}</h1>
-=======
-          <h1 class="tutorial-detail__title">{{ post?.title || '教學文章' }}</h1>
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
           <div v-if="post?.summary" class="tutorial-detail__summary">{{ post.summary }}</div>
           <pre class="tutorial-content">{{ post?.content_md || '' }}</pre>
         </template>
       </div>
-<<<<<<< HEAD
 
       <div class="card tutorial-detail__card" style="margin-top:14px;">
         <div class="panel-top" style="margin-bottom:10px;">
@@ -255,8 +227,6 @@ watch(() => route.params.slug, load)
           </div>
         </div>
       </div>
-=======
->>>>>>> 07cf0bc (Add marketing + api for Vercel)
     </div>
   </main>
 </template>
