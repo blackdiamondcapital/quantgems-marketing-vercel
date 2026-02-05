@@ -5,6 +5,7 @@ import { useRoute, RouterLink } from 'vue-router'
 const route = useRoute()
 const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? '/api').replace(/\/$/, '')
 const TOKEN_KEY = 'quantgem_auth_token'
+const PRODUCT_LOGIN_URL = String(import.meta.env.VITE_PRODUCT_LOGIN_URL || import.meta.env.VITE_APP_LOGIN_URL || 'https://quantgems.com/').trim()
 
 const loading = ref(false)
 const error = ref('')
@@ -26,6 +27,20 @@ const isAuthed = computed(() => !!authToken.value)
 function getAuthHeaders() {
   if (!authToken.value) return {}
   return { Authorization: `Bearer ${authToken.value}` }
+}
+
+function buildAuthCallbackUrl() {
+  const base = `${window.location.origin}/auth/callback`
+  const u = new URL(base)
+  u.searchParams.set('redirect', String(window.location.pathname || '/tutorials'))
+  return u.toString()
+}
+
+function loginWithGoogle() {
+  const callback = buildAuthCallbackUrl()
+  const u = new URL(PRODUCT_LOGIN_URL)
+  if (!u.searchParams.has('redirect')) u.searchParams.set('redirect', callback)
+  window.location.assign(u.toString())
 }
 
 async function loadAuthFromStorage() {
@@ -196,7 +211,12 @@ watch(() => route.params.slug, loadAll)
 
         <div class="divider" style="margin:12px 0;"></div>
 
-        <div v-if="!isAuthed" class="small">登入後即可回覆此主題。</div>
+        <div v-if="!isAuthed" class="small">
+          登入後即可回覆此主題。
+          <div class="form-row" style="margin-top:10px;">
+            <button class="btn primary" type="button" @click="loginWithGoogle">使用 Google 登入</button>
+          </div>
+        </div>
         <div v-else>
           <div class="small">以 {{ authUser?.email || authUser?.username || 'user' }} 身份回覆</div>
           <textarea class="textarea" v-model.trim="replyForm.content_md" rows="6" placeholder="輸入回覆（Markdown）" :disabled="replying" style="margin-top:8px;"></textarea>
