@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 
 const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? '/api').replace(/\/$/, '')
 const TOKEN_KEY = 'quantgem_auth_token'
+const PRODUCT_LOGIN_URL = String(import.meta.env.VITE_PRODUCT_LOGIN_URL || import.meta.env.VITE_APP_LOGIN_URL || 'https://quantgems.com/').trim()
 
 const tutorials = ref([])
 const loading = ref(false)
@@ -11,10 +12,7 @@ const error = ref('')
 
 const authToken = ref(null)
 const authUser = ref(null)
-const authLoading = ref(false)
 const authError = ref('')
-
-const loginForm = reactive({ email: '', password: '' })
 
 const creating = ref(false)
 const createError = ref('')
@@ -25,6 +23,21 @@ const isAuthed = computed(() => !!authToken.value)
 function getAuthHeaders() {
   if (!authToken.value) return {}
   return { Authorization: `Bearer ${authToken.value}` }
+}
+
+function buildAuthCallbackUrl(redirectPath = '/tutorials') {
+  const base = `${window.location.origin}/auth/callback`
+  const u = new URL(base)
+  u.searchParams.set('redirect', redirectPath)
+  return u.toString()
+}
+
+function loginWithGoogle() {
+  authError.value = ''
+  const callback = buildAuthCallbackUrl('/tutorials')
+  const u = new URL(PRODUCT_LOGIN_URL)
+  if (!u.searchParams.has('redirect')) u.searchParams.set('redirect', callback)
+  window.location.assign(u.toString())
 }
 
 function normalizeSlug(s) {
@@ -54,35 +67,6 @@ async function loadAuthFromStorage() {
     try { localStorage.removeItem(TOKEN_KEY) } catch {}
     authToken.value = null
     authUser.value = null
-  }
-}
-
-async function login() {
-  authLoading.value = true
-  authError.value = ''
-  try {
-    const resp = await fetch(`${API_BASE}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: String(loginForm.email || '').trim(),
-        password: String(loginForm.password || ''),
-      }),
-    })
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
-    const json = await resp.json()
-    const token = json?.data?.token
-    if (!token) throw new Error('missing_token')
-    authToken.value = token
-    authUser.value = json?.data?.user ?? null
-    try { localStorage.setItem(TOKEN_KEY, token) } catch {}
-  } catch (e) {
-    const msg = String(e?.message || '')
-    if (msg.includes('401')) authError.value = 'Email 或密碼錯誤'
-    else if (msg.includes('403')) authError.value = '登入失敗（可能尚未完成 Email 驗證 / 帳號停用）'
-    else authError.value = '登入失敗，請稍後再試'
-  } finally {
-    authLoading.value = false
   }
 }
 
@@ -184,16 +168,9 @@ onMounted(() => {
         </div>
 
         <div v-if="!isAuthed" class="forum-login" style="margin-top:12px;">
-          <label class="small">Email</label>
-          <input class="input" v-model.trim="loginForm.email" type="email" placeholder="you@example.com" :disabled="authLoading" />
-
-          <label class="small">Password</label>
-          <input class="input" v-model="loginForm.password" type="password" placeholder="••••••••" :disabled="authLoading" />
-
-          <div class="form-row">
-            <button class="btn primary" type="button" :disabled="authLoading" @click="login">
-              {{ authLoading ? '登入中…' : '登入' }}
-            </button>
+          <div class="small">此論壇使用產品的 Google 登入系統。</div>
+          <div class="form-row" style="margin-top:10px;">
+            <button class="btn primary" type="button" @click="loginWithGoogle">使用 Google 登入</button>
           </div>
         </div>
 
