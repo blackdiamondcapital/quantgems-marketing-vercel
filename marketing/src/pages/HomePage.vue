@@ -312,8 +312,8 @@
 <script setup>
 import { reactive, ref } from 'vue'
 
-const loginUrl = import.meta.env.VITE_APP_LOGIN_URL || 'http://localhost:5173'
-const signupUrl = import.meta.env.VITE_APP_SIGNUP_URL || 'http://localhost:5173'
+const loginUrl = import.meta.env.VITE_APP_LOGIN_URL || 'https://quantgems.com/'
+const signupUrl = import.meta.env.VITE_APP_SIGNUP_URL || 'https://quantgems.com/'
 
 const submitting = ref(false)
 const status = ref('')
