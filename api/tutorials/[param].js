@@ -1,5 +1,5 @@
 import { getPool } from '../_lib/pool.js'
-import { optionalAuth, requireAuth, requirePlan } from '../_lib/auth.js'
+import { optionalAuth, requireAuth } from '../_lib/auth.js'
 import { ensureTutorialsSchema, isPrimeOrEnterprise, normalizeSlug } from '../_lib/tutorials.js'
 
 const pool = getPool()
@@ -23,6 +23,7 @@ export default async function handler(req, res) {
     try {
       const sql = `
         SELECT id, slug, title, summary, content_md, cover_image_url,
+               author_user_id,
                published, published_at, created_at, updated_at
         FROM tutorial_posts
         WHERE slug = $1
@@ -48,7 +49,22 @@ export default async function handler(req, res) {
   }
 
   await new Promise(resolve => requireAuth(pool)(req, res, resolve))
-  await new Promise(resolve => requirePlan('enterprise', 'prime')(req, res, resolve))
+
+  let existing
+  try {
+    const cur = await pool.query('SELECT id, author_user_id FROM tutorial_posts WHERE id = $1 LIMIT 1', [id])
+    existing = cur.rows?.[0] || null
+    if (!existing) return res.status(404).json({ success: false, message: 'not_found' })
+  } catch (e) {
+    console.error('tutorials fetch owner error:', e)
+    return res.status(500).json({ success: false, message: 'tutorials_owner_fetch_failed' })
+  }
+
+  const isAdminLike = isPrimeOrEnterprise(req.user)
+  const isOwner = existing?.author_user_id != null && Number(existing.author_user_id) === Number(req.user?.id)
+  if (!isAdminLike && !isOwner) {
+    return res.status(403).json({ success: false, message: 'permission_denied' })
+  }
 
   if (req.method === 'PUT') {
     const slugRaw = req.body?.slug
@@ -88,7 +104,7 @@ export default async function handler(req, res) {
     if (contentMd !== null) addSet('content_md', contentMd)
     if (coverRaw !== undefined) addSet('cover_image_url', coverImageUrl)
 
-    if (published !== null) {
+    if (published !== null && isAdminLike) {
       addSet('published', published)
       if (published) addSet('published_at', new Date())
       else addSet('published_at', null)
