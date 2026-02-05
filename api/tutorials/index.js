@@ -1,5 +1,5 @@
 import { getPool } from '../_lib/pool.js'
-import { optionalAuth, requireAuth, requirePlan } from '../_lib/auth.js'
+import { optionalAuth, requireAuth } from '../_lib/auth.js'
 import { ensureTutorialsSchema, isPrimeOrEnterprise, normalizeSlug } from '../_lib/tutorials.js'
 
 const pool = getPool()
@@ -37,14 +37,13 @@ export default async function handler(req, res) {
     await ensureTutorialsSchema(pool)
 
     await new Promise(resolve => requireAuth(pool)(req, res, resolve))
-    await new Promise(resolve => requirePlan('enterprise', 'prime')(req, res, resolve))
 
     const slug = normalizeSlug(req.body?.slug)
     const title = String(req.body?.title || '').trim()
     const summary = req.body?.summary === undefined ? null : String(req.body?.summary || '').trim()
     const contentMd = String(req.body?.content_md || req.body?.content || '').trim()
     const coverImageUrl = req.body?.cover_image_url === undefined ? null : String(req.body?.cover_image_url || '').trim()
-    const published = Boolean(req.body?.published)
+    const published = req.body?.published === undefined ? true : Boolean(req.body?.published)
 
     if (!slug) return res.status(400).json({ success: false, message: 'invalid_slug' })
     if (!title) return res.status(400).json({ success: false, message: 'title_required' })
@@ -53,11 +52,11 @@ export default async function handler(req, res) {
     try {
       const nowPublishedAt = published ? new Date() : null
       const sql = `
-        INSERT INTO tutorial_posts (slug, title, summary, content_md, cover_image_url, published, published_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO tutorial_posts (slug, title, summary, content_md, cover_image_url, published, published_at, author_user_id)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING id, slug, title, summary, cover_image_url, published, published_at, created_at, updated_at
       `
-      const result = await pool.query(sql, [slug, title, summary, contentMd, coverImageUrl, published, nowPublishedAt])
+      const result = await pool.query(sql, [slug, title, summary, contentMd, coverImageUrl, published, nowPublishedAt, req.user?.id ?? null])
       return res.status(201).json({ success: true, data: result.rows?.[0] || null })
     } catch (e) {
       if (String(e?.code) === '23505') {
