@@ -45,8 +45,8 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 
-const loginUrl = import.meta.env.VITE_APP_LOGIN_URL || 'http://localhost:5173'
-const signupUrl = import.meta.env.VITE_APP_SIGNUP_URL || 'http://localhost:5173'
+const loginUrl = import.meta.env.VITE_APP_LOGIN_URL || 'https://quantgems.com/'
+const signupUrl = import.meta.env.VITE_APP_SIGNUP_URL || 'https://quantgems.com/'
 
 const showAdminLink =
   import.meta.env.DEV || String(import.meta.env.VITE_SHOW_ADMIN_LINK || '').toLowerCase() === 'true'
