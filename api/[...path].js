@@ -137,8 +137,24 @@ async function ensureSchema() {
         updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       );
     `)
+    await pool.query('ALTER TABLE tutorial_posts ADD COLUMN IF NOT EXISTS author_user_id BIGINT;')
+    await pool.query('ALTER TABLE tutorial_posts ADD COLUMN IF NOT EXISTS last_reply_at TIMESTAMPTZ;')
     await pool.query('CREATE INDEX IF NOT EXISTS tutorial_posts_published_idx ON tutorial_posts (published, published_at DESC);')
     await pool.query('CREATE INDEX IF NOT EXISTS tutorial_posts_created_at_idx ON tutorial_posts (created_at DESC);')
+    await pool.query('CREATE INDEX IF NOT EXISTS tutorial_posts_author_user_id_idx ON tutorial_posts (author_user_id);')
+    await pool.query('CREATE INDEX IF NOT EXISTS tutorial_posts_last_reply_at_idx ON tutorial_posts (last_reply_at DESC);')
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS tutorial_replies (
+        id BIGSERIAL PRIMARY KEY,
+        post_id BIGINT NOT NULL REFERENCES tutorial_posts(id) ON DELETE CASCADE,
+        author_user_id BIGINT,
+        content_md TEXT NOT NULL,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+    `)
+    await pool.query('CREATE INDEX IF NOT EXISTS tutorial_replies_post_id_created_at_idx ON tutorial_replies (post_id, created_at ASC, id ASC);')
+    await pool.query('CREATE INDEX IF NOT EXISTS tutorial_replies_author_user_id_idx ON tutorial_replies (author_user_id);')
     ensured = true
   })()
   return ensurePromise
@@ -154,6 +170,15 @@ function normalizeSlug(value) {
 function isEnterpriseUser(req) {
   const plan = String(req?.user?.plan || '').toLowerCase()
   return plan === 'enterprise' || plan === 'prime'
+}
+
+function canViewPost(req, post) {
+  if (!post) return false
+  if (post.published) return true
+  if (!req.user) return false
+  const isAdminLike = isEnterpriseUser(req)
+  const isOwner = post.author_user_id != null && Number(post.author_user_id) === Number(req.user?.id)
+  return isAdminLike || isOwner
 }
 
 // Health
@@ -206,6 +231,83 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (e) {
     console.error('auth login error:', e)
     return res.status(500).json({ success: false, message: '登入失敗，請稍後再試' })
+  }
+})
+
+// Tutorials: replies
+app.get('/api/tutorials/:slug/replies', optionalAuth(pool), async (req, res) => {
+  await ensureSchema()
+
+  const slug = normalizeSlug(req.params.slug)
+  if (!slug) {
+    return res.status(400).json({ success: false, message: 'invalid_slug' })
+  }
+
+  try {
+    const p = await pool.query(
+      'SELECT id, slug, published, author_user_id FROM tutorial_posts WHERE slug = $1 LIMIT 1',
+      [slug]
+    )
+    const post = p.rows?.[0] || null
+    if (!canViewPost(req, post)) {
+      return res.status(404).json({ success: false, message: 'not_found' })
+    }
+
+    const r = await pool.query(
+      `SELECT r.id, r.post_id, r.author_user_id, r.content_md, r.created_at,
+              u.username, u.full_name
+       FROM tutorial_replies r
+       LEFT JOIN users u ON u.id = r.author_user_id
+       WHERE r.post_id = $1
+       ORDER BY r.created_at ASC, r.id ASC`,
+      [post.id]
+    )
+
+    return res.json({ success: true, data: r.rows || [] })
+  } catch (e) {
+    console.error('tutorial replies list error:', e)
+    return res.status(500).json({ success: false, message: 'tutorial_replies_list_failed' })
+  }
+})
+
+app.post('/api/tutorials/:slug/replies', requireAuth(pool), async (req, res) => {
+  await ensureSchema()
+
+  const slug = normalizeSlug(req.params.slug)
+  if (!slug) {
+    return res.status(400).json({ success: false, message: 'invalid_slug' })
+  }
+
+  const contentMd = String(req.body?.content_md || req.body?.content || '').trim()
+  if (!contentMd) {
+    return res.status(400).json({ success: false, message: 'content_required' })
+  }
+
+  try {
+    const p = await pool.query(
+      'SELECT id, slug, published, author_user_id FROM tutorial_posts WHERE slug = $1 LIMIT 1',
+      [slug]
+    )
+    const post = p.rows?.[0] || null
+    if (!canViewPost(req, post)) {
+      return res.status(404).json({ success: false, message: 'not_found' })
+    }
+
+    const ins = await pool.query(
+      `INSERT INTO tutorial_replies (post_id, author_user_id, content_md)
+       VALUES ($1, $2, $3)
+       RETURNING id, post_id, author_user_id, content_md, created_at`,
+      [post.id, req.user?.id ?? null, contentMd]
+    )
+
+    try {
+      await pool.query('UPDATE tutorial_posts SET last_reply_at = NOW(), updated_at = NOW() WHERE id = $1', [post.id])
+    } catch {}
+
+    return res.status(201).json({ success: true, data: ins.rows?.[0] || null })
+  } catch (e) {
+    console.error('tutorial replies create error:', e)
+    return res.status(500).json({ success: false, message: 'tutorial_replies_create_failed' })
   }
 })
 
